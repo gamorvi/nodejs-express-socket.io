@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Chat</title>
+        <style>
+            #chat{
+                height:500px;
+                overflow-y:scroll;
+            }
+            #small { font-size: 8px; }
+            #large { font-size: 72px; }
+            #regular { font-size: 20px; }
+            .wrapped { width: 350px; }
+        </style>
+        
+        <link href="http://os.alfajango.com/css/jquery.cssemoticons.css" media="screen" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="chat"></div>
+        <form id="send-message">
+            <input size="35" id="message" type="text" />
+            <input type="submit" name="send" value="Send"/>   
+        </form>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="http://os.alfajango.com/js/jquery.cssemoticons.min.js" type="text/javascript"></script>
+        
+        <script>
+            $(document).ready(function(){
+                $('#chat').emoticonize({
+                    //delay: 500,
+                    //animate: false,
+                    //exclude: 'pre, code, .no-emoticons'
+                });
+                var socket =io.connect();
+                var $messageForm = $('#send-message');
+                var $messageBox = $('#message');
+                var $chat = $('#chat');
+                
+                    $messageForm.submit(function(e){
+                            e.preventDefault();
+                            //send the message to the server
+                            socket.emit('send message', $messageBox.val());
+                            $messageBox.val('');
+                    });
+                    //receive message from the server
+                    socket.on('new message', function(data){
+                        $chat.append(data+'<br/>');
+                    });
+                
+                });
+        </script>
+    </body>
+</html>
