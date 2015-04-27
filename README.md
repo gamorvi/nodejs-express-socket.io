@@ -1,7 +1,7 @@
 # nodejs-express-socket.io
 A simple real-time chat application without storing the chat locally
 
-# fork or download code
+# Up and Running
 1. fork code or git clone the url
 2. cd into the chat folder 
 3. run node app.js (this will start your server running on port 3000)
